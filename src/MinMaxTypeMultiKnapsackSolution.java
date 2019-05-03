@@ -212,9 +212,6 @@ public class MinMaxTypeMultiKnapsackSolution {
 		itemForBin = new VarIntLS[getTheNumberOfItems()][getTheNumberOFBins()];
 		binForItem = new VarIntLS[getMaxT()+1][getTheNumberOFBins()];
 		binForItemsOfClass = new VarIntLS[getMaxR()+1][getTheNumberOFBins()];
-//		int[] tmp;
-//		System.out.println(getMaxR());
-//		System.out.println(getMaxT());
 		// mang y
 		for (int i = 0; i <= getMaxT(); i++) {
 			for (int j = 0; j < getTheNumberOFBins(); j++) {
@@ -235,8 +232,7 @@ public class MinMaxTypeMultiKnapsackSolution {
 			}
 		}
 		S = new ConstraintSystem(mgr);
-//		IFunction[] ff1 = new IFunction[getTheNumberOFBins()];
-//		IFunction[] ff2 = new IFunction[getTheNumberOFBins()];
+		
 		for (int  i = 0; i < getTheNumberOFBins() ; i++) {
 			IFunction[] f1 = new IFunction[getTheNumberOfItems()];
 			IFunction[] f2 = new IFunction[getTheNumberOfItems()];
@@ -244,7 +240,7 @@ public class MinMaxTypeMultiKnapsackSolution {
 			VarIntLS[] tmptmptmp = new VarIntLS[getMaxR()+1];
 			for (int j = 0; j < getTheNumberOfItems(); j++) {
 					// max capacity
-				   f1[j] = new FuncMult(itemForBin[j][i],itemsTemporary[j].getW());   // trong so 1
+				   f1[j] = new FuncMult(itemForBin[j][i],itemsTemporary[j].getW());   // trong so 1  
 				    //minload
 				   f2[j] = new FuncMult(itemForBin[j][i], itemsTemporary[j].getP());  // trong so 2
 				   S.post(new LessOrEqual(itemForBin[j][i], binForItem[itemsTemporary[j].getT()][i]));
@@ -263,11 +259,9 @@ public class MinMaxTypeMultiKnapsackSolution {
 			S.post(new LessOrEqual(ss, binsTemporary[i].getR()));
 			
 			SumFun sf = new SumFun(f1);
-//			ff1[i] = sf;
 			S.post(new LessOrEqual(sf,binsTemporary[i].getCapacity()));
-//			S.post(new LessOrEqual(binsTemporary[i].getMinLoad(),ff1[i]));
+
 			SumFun ssf = new SumFun(f2);
-//			ff2[i] = ssf;
 			S.post(new LessOrEqual(ssf, binsTemporary[i].getP()));
 		}
 		for (int i = 0; i < getTheNumberOfItems(); i++) {	
@@ -277,15 +271,6 @@ public class MinMaxTypeMultiKnapsackSolution {
 				fff[j] = new FuncMult(itemForBin[i][a],1);
 			}
 			SumFun sf = new SumFun(fff);
-			S.post(new IsEqual(sf, 1));
-		}	
-		
-		for (int i = 0; i < getTheNumberOfItems(); i++) {	
-			IFunction[] ffff = new IFunction[getTheNumberOFBins()];
-			for (int j = 0; j < getTheNumberOFBins(); j++) {
-				ffff[j] = new FuncMult(itemForBin[i][j],1);
-			}
-			SumFun sf = new SumFun(ffff);
 			S.post(new IsEqual(sf, 1));
 		}	
 		mgr.close();
@@ -313,41 +298,41 @@ public class MinMaxTypeMultiKnapsackSolution {
 	}
 	
 	public void print() {
+		for(int i = 0; i < getTheNumberOFBins(); i++) {
+			System.out.println("Bin i = " +i);
+			System.out.print("Item:  ");
+			for (int j = 0; j < getTheNumberOfItems(); j++) {
+				if(itemForBin[j][i].getValue() == 1) {
+					System.out.print("  "+j);
+				}
+			}
+		System.out.println();
+		}
 //		for(int i = 0; i < getTheNumberOFBins(); i++) {
-//			System.out.println("Bin i = " +i);
-//			System.out.print("Item:  ");
+////			System.out.println("Bin i = " +i);
+////			System.out.print("Item:  ");
 //			for (int j = 0; j < getTheNumberOfItems(); j++) {
-//				if(itemForBin[j][i].getValue() == 1) {
-//					System.out.print("  "+j);
-//				}
+////				if(itemForBin[j][i].getValue() == 1) {
+//					System.out.print("  "+itemForBin[j][i].getValue());
+////				}
 //			}
 //		System.out.println();
 //		}
-		for(int i = 0; i < getTheNumberOFBins(); i++) {
-//			System.out.println("Bin i = " +i);
-//			System.out.print("Item:  ");
-			for (int j = 0; j < getTheNumberOfItems(); j++) {
-//				if(itemForBin[j][i].getValue() == 1) {
-					System.out.print("  "+itemForBin[j][i].getValue());
-//				}
-			}
-		System.out.println();
-		}
-		System.out.println("--------------------------------------------------------------");
-		for(int i = 0; i < getTheNumberOFBins(); i++) {
-			for (int j = 0; j <= getMaxT() ; j++) {
-					System.out.print("  "+binForItem[j][i].getValue());
-			}
-		System.out.println();
-		}
-		
-		System.out.println("--------------------------------------------------------------");
-		for(int i = 0; i < getTheNumberOFBins(); i++) {
-			for (int j = 0; j <= getMaxR() ; j++) {
-					System.out.print("  "+binForItemsOfClass[j][i].getValue());
-			}
-		System.out.println();
-		}
+//		System.out.println("--------------------------------------------------------------");
+//		for(int i = 0; i < getTheNumberOFBins(); i++) {
+//			for (int j = 0; j <= getMaxT() ; j++) {
+//					System.out.print("  "+binForItem[j][i].getValue());
+//			}
+//		System.out.println();
+//		}
+//		
+//		System.out.println("--------------------------------------------------------------");
+//		for(int i = 0; i < getTheNumberOFBins(); i++) {
+//			for (int j = 0; j <= getMaxR() ; j++) {
+//					System.out.print("  "+binForItemsOfClass[j][i].getValue());
+//			}
+//		System.out.println();
+//		}
 	}
 	public static void main(String[] args) {
 		
